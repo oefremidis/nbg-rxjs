@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { from, interval, of } from 'rxjs';
+import { filter, map, reduce, scan, shareReplay, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-observables',
@@ -12,34 +13,35 @@ export class ObservablesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // const observable = interval(5000);
+    const observable = interval(1000).pipe(
+      take(5),
+      tap((num: number):void => console.log(`Value: ${num}`)),
+      map((num: number):number => 2 * num),
+      // filter((value:number):boolean => value >= 5),
+      // reduce((acc:number, num:number):number => acc + num),
+      // scan((acc:number, num:number):number => acc + num)
+    );
 
-    // without types
-    // observable.subscribe({
-    //   next: value => console.log(`Observer 1: ${value}`),
-    //   error: error => console.error('Something is wrong...'),
-    //   complete: () => console.log('Steam Completed...')
-    // });
 
-    // observable.subscribe({
-    //   next: (value: number): void => console.log(`Observer 1: ${value}`),
-    //   error: (error:Error): void => console.error('Something is wrong...'),
-    //   complete: (): void => console.log('Steam Completed...')
-    // });
+    observable.subscribe({
+      next: (value: number): void => console.log(`Observer 1: ${value}`),
+      error: (error:Error): void => console.error('Something is wrong...'),
+      complete: (): void => console.log('Stream Completed...')
+    });
 
-    // observable.subscribe({
-    //   next: (value: number): void => console.log(`Observer 2: ${value}`),
-    // });
+    observable.subscribe({
+      next: (value: number): void => console.log(`Observer 2: ${value}`),
+    });
 
     // single values
-    of(1, 2, 'Hello', { name: 'nik' }).subscribe({
-      next: (value: any): void => console.log(`Observer... ${value}`),
-    });
+    // of(1, 2, 'Hello', { name: 'nik' }).subscribe({
+    //   next: (value: any): void => console.log(`Observer... ${value}`),
+    // });
 
     // from data structures
-    from(['x', 'r', 'l', 'b', 'a']).subscribe({
-      next: (value: any): void => console.log(`Observer... ${value}`),
-    });
+    // from(['x', 'r', 'l', 'b', 'a']).subscribe({
+    //   next: (value: any): void => console.log(`Observer... ${value}`),
+    // });
 
   }
 

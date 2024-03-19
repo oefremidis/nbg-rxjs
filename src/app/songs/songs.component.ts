@@ -13,14 +13,21 @@ export class SongsComponent implements OnInit{
 
   service = inject(SongsService);
 
-  // Step 3 - Show on template
-  songs: any;
+
+  // Step 1 - getData - no observable
+  // Step 2 - change it to observable into service
+  // songs = this.service.getData();
+
 
   ngOnInit(): void {
-    this.service.getData().subscribe({
-      next: response => this.songs = response,
+    // Step 2
+    // this.songs.subscribe({
+
+    // Step 3
+    this.service.getSongs().subscribe({
+      next: song => console.log(song),
       error: error => console.error(error),
-      // complete: () => console.log('Done...')
+      complete: () => console.log('Done...')
     });
 
     this.service.getRatedInPlayList().subscribe({
@@ -34,18 +41,7 @@ export class SongsComponent implements OnInit{
   }
 
 
-  // Step 1 - getData - no observable
 
-  // Step 2
-  // songs = this.service.getData();
-
-  // ngOnInit(): void {
-  //   this.songs.subscribe({
-  //     next: song => console.log(song),
-  //     error: error => console.error(error),
-  //     complete: () => console.log('Done...')
-  //   });
-  // }
 
 
 }

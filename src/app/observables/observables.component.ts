@@ -15,8 +15,8 @@ export class ObservablesComponent implements OnInit {
   ngOnInit(): void {
     const observable = interval(1000).pipe(
       take(5),
-      tap((num: number):void => console.log(`Value: ${num}`)),
-      map((num: number):number => 2 * num),
+      tap((num: number): void => console.log(`Value: ${num}`)),
+      map((num: number): number => 2 * num),
       // filter((value:number):boolean => value >= 5),
       // reduce((acc:number, num:number):number => acc + num),
       // scan((acc:number, num:number):number => acc + num)
@@ -25,7 +25,7 @@ export class ObservablesComponent implements OnInit {
 
     observable.subscribe({
       next: (value: number): void => console.log(`Observer 1: ${value}`),
-      error: (error:Error): void => console.error('Something is wrong...'),
+      error: (error: Error): void => console.error('Something is wrong...'),
       complete: (): void => console.log('Stream Completed...')
     });
 
@@ -37,11 +37,18 @@ export class ObservablesComponent implements OnInit {
     // of(1, 2, 'Hello', { name: 'nik' }).subscribe({
     //   next: (value: any): void => console.log(`Observer... ${value}`),
     // });
+    // or
+    // of(1, 2, 3).subscribe({ next: (data: number): void => console.log(data) });
 
-    // from data structures
-    // from(['x', 'r', 'l', 'b', 'a']).subscribe({
-    //   next: (value: any): void => console.log(`Observer... ${value}`),
-    // });
+    // from
+    const stringArray = ["x", "r", "l", "b", "a"];
+
+    const stringsObs = from(stringArray)
+      .pipe(
+        take(4),
+        map((word: string): string => word.toLocaleUpperCase())
+      )
+      .subscribe({ next: (value: string): void => console.log(value) });
 
   }
 
